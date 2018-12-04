@@ -45,7 +45,7 @@ object Parser {
           case _ => sys.error(s"Should be RParen")
         }
       }
-      case Lcid(name) :: t => (Identifier(name), t)
+      case Lcid(name) :: t => (Identifier(ctx.indexOf(name)), t)
       case _ => (FAKE, tokens)
     }
 

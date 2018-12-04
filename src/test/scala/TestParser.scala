@@ -13,8 +13,8 @@ class TestParser {
       term(Nil, tokenize("(~x. x)(~y. y b)".toList)._1),
       (
         Application(
-          Abstraction("x", Identifier("x")), 
-          Abstraction("y", Application(Identifier("y"), Identifier("b")))
+          Abstraction("x", Identifier(0)), 
+          Abstraction("y", Application(Identifier(0), Identifier(-1)))
         ),
         List(Eof)
       )
@@ -23,7 +23,7 @@ class TestParser {
     assertEquals(
       term(Nil, tokenize("(~x. x)(~y. y)".toList)._1),
       (
-        Application(Abstraction("x", Identifier("x")), Abstraction("y", Identifier("y"))),
+        Application(Abstraction("x", Identifier(0)), Abstraction("y", Identifier(0))),
         List(Eof)
       )
     )
@@ -31,38 +31,38 @@ class TestParser {
     assertEquals(
       tokenize("~x. x b".toList),
       (List(Lambda, Lcid("x"), Dot, Lcid("x"), Lcid("b"), Eof), Nil)
-    ) 
+    )
 
     assertEquals(
       term(Nil, tokenize("~x. x b".toList)._1),
-      (Abstraction("x", Application(Identifier("x"), Identifier("b"))), List(Eof))
+      (Abstraction("x", Application(Identifier(0), Identifier(-1))), List(Eof))
     )
 
     assertEquals(
       term(Nil, tokenize("~x. ~y. x".toList)._1),
       (
-        Abstraction("x", Abstraction("y", Identifier("x"))), 
+        Abstraction("x", Abstraction("y", Identifier(1))), 
         List(Eof)
       )
     )
 
     assertEquals(
       term(Nil, tokenize("((~x. x))".toList)._1),
-      (Abstraction("x", Identifier("x")), List(Eof))
+      (Abstraction("x", Identifier(0)), List(Eof))
     )
 
     assertEquals(
       term(Nil, tokenize("(~x. x)".toList)._1),
-      (Abstraction("x", Identifier("x")), List(Eof))
+      (Abstraction("x", Identifier(0)), List(Eof))
     )
 
     assertEquals(
       term(Nil, tokenize("~x.x".toList)._1),
-      (Abstraction("x", Identifier("x")), List(Eof))
+      (Abstraction("x", Identifier(0)), List(Eof))
     )
   }
 
-  // @Test
+  @Test
   def TestAtom: Unit = {
     assertEquals(
       atom(Nil, tokenize("~x.x".toList)._1),
@@ -75,15 +75,15 @@ class TestParser {
     )
     assertEquals(
       atom(List("xy"), tokenize(" \t\nxy".toList)._1),
-      (Identifier("xy"), List(Eof))
+      (Identifier(0), List(Eof))
     )
     assertEquals(
       atom(List("name"), tokenize("name".toList)._1),
-      (Identifier("name"), List(Eof))
+      (Identifier(0), List(Eof))
     )
     assertEquals(
       atom(List("x"), tokenize("x".toList)._1),
-      (Identifier("x"), List(Eof))
+      (Identifier(0), List(Eof))
     )
   }
 }
