@@ -5,7 +5,6 @@ lazy val root = project
   .settings(
     name := "λ",
     version := "0.1.0",
-    mainClass := Some("App"),
 
     scalaVersion := dottyVersion,
 
