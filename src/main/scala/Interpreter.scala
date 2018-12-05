@@ -1,6 +1,15 @@
 object Interpreter {
   import Token._
+  import Parser._
+  import Lexer._
   
+  def exec(source: String) = (ast andThen eval andThen println)(source)
+  
+  private def ast(source: String) = {
+    val (tokens, _) = tokenize(source.toList)
+    eval(parse(tokens))
+  }
+
   def eval(ast: AST): AST = ast match {
     case Application(lhs, rhs) => 
       (lhs, rhs) match {

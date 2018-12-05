@@ -32,20 +32,57 @@ object Main {
     println(TrueOrFalse)
     val FalseOrFalse = eval(parse(tokenize("(~p. ~q. p p q)(~a. ~b. b)(~a. ~b. b)".toList)._1))
     println(FalseOrFalse)
+    // `NOT`
+    val NotFalse = eval(parse(tokenize("(~p. p (~a. ~b. b)(~a. ~b. a))(~a. ~b. b)".toList)._1))
+    println(s"Not false = $NotFalse")
+    val NotTrue = eval(parse(tokenize("(~p. p (~a. ~b. b)(~a. ~b. a))(~a. ~b. a)".toList)._1))
+    println(s"Not true = $NotTrue")
+
+    println()
+
+    // `if ... else ...`
+    val TrueIf = eval(parse(tokenize("(~p. ~a. ~b. p a b)(~a. ~b. a)(~x.x)(~y.y)".toList)._1))
+    println(TrueIf)
+    val FalseIf = eval(parse(tokenize("(~p. ~a. ~b. p a b)(~a. ~b. b)(~x.x)(~y.y)".toList)._1))
+    println(FalseIf)
+
+    println()
+
+    // Predicats
+    val ZeroIsZero = 
+      eval(parse(tokenize("(~n. n (~x. (~a. ~b. b))(~a. ~b. a))(~f. ~x. x)".toList)._1))
+    println(ZeroIsZero) // true
+
+    val OneIsZero = 
+      eval(parse(tokenize("(~n. n (~x. (~a. ~b. b))(~a. ~b. a))(~f. ~x. f x)".toList)._1))
+    println(OneIsZero) // false
+
+    val TwoIsZero = 
+      eval(parse(tokenize("(~n. n (~x. (~a. ~b. b))(~a. ~b. a))(~f. ~x. f (f x))".toList)._1))
+    println(TwoIsZero) // false
+    /* val FiveIsZero = 
+      eval(parse(tokenize("(~n. n (~x. (~a. ~b. b))(~a. ~b. a))(~f. ~x. f(f(f(f(f x)))))".toList)._1))
+    println(FiveIsZero) // false */
+    exec("(~n. n (~x. (~a. ~b. b))(~a. ~b. a))(~f. ~x. f(f(f(f(f x)))))")
+    exec("(~x.x)(~y.yy)")
+    /* val andOne = 
+      eval(parse(tokenize("(~n. ~f. ~x. f (n f x))(~f. ~x. f x)".toList)._1))
+    println(andOne) */
   }
+
 }
 
 
 
 trait AST
 case class Abstraction(val head: String, val body: AST) extends AST {
-  override def toString = s"(\\${head}.${body})"
+  override def toString = s"(\\${head}. ${body})"
 }
 case class Identifier(val name: String, val index: Int) extends AST {
   override def toString = s"$name"
 }
 case class Application(val lhs: AST, val rhs: AST) extends AST {
-  override def toString = s"${lhs}${rhs}"
+  override def toString = s"${lhs} ${rhs}"
 }
 case object FAKE extends AST
 
