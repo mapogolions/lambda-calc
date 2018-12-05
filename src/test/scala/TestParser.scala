@@ -13,8 +13,8 @@ class TestParser {
       term(Nil, tokenize("(~x. x)(~y. y b)".toList)._1),
       (
         Application(
-          Abstraction("x", Identifier(0)), 
-          Abstraction("y", Application(Identifier(0), Identifier(-1)))
+          Abstraction("x", Identifier("x", 0)), 
+          Abstraction("y", Application(Identifier("y", 0), Identifier("b", -1)))
         ),
         List(Eof)
       )
@@ -23,7 +23,7 @@ class TestParser {
     assertEquals(
       term(Nil, tokenize("(~x. x)(~y. y)".toList)._1),
       (
-        Application(Abstraction("x", Identifier(0)), Abstraction("y", Identifier(0))),
+        Application(Abstraction("x", Identifier("x", 0)), Abstraction("y", Identifier("y", 0))),
         List(Eof)
       )
     )
@@ -35,30 +35,30 @@ class TestParser {
 
     assertEquals(
       term(Nil, tokenize("~x. x b".toList)._1),
-      (Abstraction("x", Application(Identifier(0), Identifier(-1))), List(Eof))
+      (Abstraction("x", Application(Identifier("x", 0), Identifier("b", -1))), List(Eof))
     )
 
     assertEquals(
       term(Nil, tokenize("~x. ~y. x".toList)._1),
       (
-        Abstraction("x", Abstraction("y", Identifier(1))), 
+        Abstraction("x", Abstraction("y", Identifier("x", 1))), 
         List(Eof)
       )
     )
 
     assertEquals(
       term(Nil, tokenize("((~x. x))".toList)._1),
-      (Abstraction("x", Identifier(0)), List(Eof))
+      (Abstraction("x", Identifier("x", 0)), List(Eof))
     )
 
     assertEquals(
       term(Nil, tokenize("(~x. x)".toList)._1),
-      (Abstraction("x", Identifier(0)), List(Eof))
+      (Abstraction("x", Identifier("x", 0)), List(Eof))
     )
 
     assertEquals(
       term(Nil, tokenize("~x.x".toList)._1),
-      (Abstraction("x", Identifier(0)), List(Eof))
+      (Abstraction("x", Identifier("x", 0)), List(Eof))
     )
   }
 
@@ -75,15 +75,15 @@ class TestParser {
     )
     assertEquals(
       atom(List("xy"), tokenize(" \t\nxy".toList)._1),
-      (Identifier(0), List(Eof))
+      (Identifier("xy", 0), List(Eof))
     )
     assertEquals(
       atom(List("name"), tokenize("name".toList)._1),
-      (Identifier(0), List(Eof))
+      (Identifier("name", 0), List(Eof))
     )
     assertEquals(
       atom(List("x"), tokenize("x".toList)._1),
-      (Identifier(0), List(Eof))
+      (Identifier("x", 0), List(Eof))
     )
   }
 }
