@@ -14,8 +14,8 @@ Inspired - [A λ-calculus interpreter in less than 300 lines of JavaScript](http
 $ git clone ...
 $ cd root of project
 $ sbt
-stb:λ> test
-stb:λ> console
+sbt:λ> test
+sbt:λ> console
 scala> import Interpreter._
 scala> exec("(~p. ~q. p q p)(~a. ~b. a)(~a. ~b. b)")
 (\a. (\b b))
@@ -31,7 +31,10 @@ scala> exec(s"${Not}${True}")
 (\a. (\b. b))
 scala> ...
 ```
-Enter `:quit` for terminated session
+
+To get out of `sbt:λ`, type `exit`
+
+To get out of `scala`, type `:quit`
 
 ### More examples:
 

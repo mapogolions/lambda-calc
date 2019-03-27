@@ -4,7 +4,7 @@ object Main {
   import Parser._
 
   def main(args: Array[String]): Unit = {
-    println("parser for lambda calculus") 
+    println("parser for lambda calculus")
   }
 
 }
