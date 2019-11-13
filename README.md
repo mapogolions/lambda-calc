@@ -1,5 +1,7 @@
 # Interpreter for lambda calculus
 
+### Caution!
+The dotty compiler is developing rapidly. Newer releases may break backward compatibility. Pay attention to [this] config line(./build.sbt).
 
 ### For more information:
 
